@@ -14,11 +14,16 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 
-# Copy the application source code
-COPY src/ .
+# Copy composer.json and composer.lock first
+COPY composer.json composer.lock ./
 
 # Install PHP dependencies using Composer
 RUN composer install --no-dev --optimize-autoloader
+
+# Copy the application source code
+# This should happen after composer install, so that the vendor directory
+# is not overwritten if it was created by composer.
+COPY src/ .
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
