@@ -1,5 +1,5 @@
 # Use an official PHP-FPM image as the base
-FROM php:8.2-fpm
+FROM php:8.2-apache
 
 # Set the working directory in the container
 WORKDIR /var/www/html
@@ -27,6 +27,3 @@ COPY src/ .
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
-
-# Start PHP-FPM
-CMD ["php-fpm"]
